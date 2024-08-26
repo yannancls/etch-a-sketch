@@ -81,7 +81,7 @@ slider.oninput = function() {
     createGrid(size);
 }
 
-// FUNCTIONS
+// Creating Grid
 
 function createGrid(size) {
     gridContainer.innerHTML = '';
@@ -103,6 +103,7 @@ createGrid(slider.value);
 let currentMode = "color";
 
 const buttons = document.querySelectorAll('button');
+const flexItems = document.querySelectorAll('.flexItem');
 
 buttons.forEach(button => {
     button.addEventListener("click", () => {
@@ -120,11 +121,12 @@ buttons.forEach(button => {
         else if (button.classList.contains('grid')) {
             if (grid.innerText === "Enable Grid") {
                 grid.innerText = "Disable Grid";
+                gridContainer.style.margin = "1px 0px 0px 1px";
             }
             else {
                 grid.innerText = "Enable Grid";
+                gridContainer.style.margin = "1px";
             }
-            const flexItems = document.querySelectorAll('.flexItem');
             flexItems.forEach(item => {
                 item.classList.toggle('showGrid');
             });
@@ -135,7 +137,9 @@ buttons.forEach(button => {
             button.classList.add("active");
         }
         else if (button.classList.contains('clear')) {
-            createGrid(slider.value);
+            flexItems.forEach(item => {
+                item.style.backgroundColor = 'white';
+            });
         }
     })
 })
