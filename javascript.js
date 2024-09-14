@@ -56,11 +56,10 @@ slider.classList.add("slider");
 title.innerText = "Etch-a-Sketch";
 color.innerText = "Solid Color";
 rainbow.innerText = "Rainbow Color";
-grid.innerText = "Enable Grid";
+grid.innerText = "Disable Grid";
 eraser.innerText = "Erase";
 clear.innerText = "Clear";
 rangeText.innerText = "16 x 16";
-
 
 // Customizing the Color Picker
 
@@ -79,19 +78,22 @@ slider.oninput = function() {
     let size = this.value;
     rangeText.textContent = `${size} x ${size}`;
     createGrid(size);
+    gridSetting();
 }
 
 // Creating Grid
 
 function createGrid(size) {
     gridContainer.innerHTML = '';
-    const itemSize = 100 / size;
+    gridContainer.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+    gridContainer.style.gridTemplateRows = `repeat(${size}, 1fr)`;
+
     for (let i = 0; i < size * size; i++) {
-        const flexItem = document.createElement('div');
-        flexItem.classList.add('flexItem');
-        flexItem.style.flexBasis = `${itemSize}%`;
-        gridContainer.appendChild(flexItem);
+        const gridItem = document.createElement('div');
+        gridItem.classList.add('flexItem');
+        gridContainer.appendChild(gridItem);
     }
+    gridSetting();
 }
 
 // Initial Grid Creation
@@ -119,17 +121,7 @@ buttons.forEach(button => {
             button.classList.add("active");
         }
         else if (button.classList.contains('grid')) {
-            if (grid.innerText === "Enable Grid") {
-                grid.innerText = "Disable Grid";
-                gridContainer.style.margin = "1px 0px 0px 1px";
-            }
-            else {
-                grid.innerText = "Enable Grid";
-                gridContainer.style.margin = "1px";
-            }
-            flexItems.forEach(item => {
-                item.classList.toggle('showGrid');
-            });
+            gridSetting();
         }
         else if (button.classList.contains('eraser')) {
             currentMode = 'eraser';
@@ -144,7 +136,29 @@ buttons.forEach(button => {
     })
 })
 
+// Function for Enabling/Disabling the Grid
+
+function gridSetting() {
+    const flexItems = document.querySelectorAll('.flexItem');
+
+    if (grid.innerText === "Enable Grid") {
+        grid.innerText = "Disable Grid";
+        gridContainer.style.margin = "1px";
+        flexItems.forEach(item => {
+            item.classList.add('showGrid');
+        });
+    } else {
+        grid.innerText = "Enable Grid";
+        gridContainer.style.margin = "0";
+        flexItems.forEach(item => {
+            item.classList.remove('showGrid');
+        });
+    }
+}
+
 // Sketching in the Grid
+
+let isSketching = false;
 
 gridContainer.addEventListener("mousedown", startSketch);
 gridContainer.addEventListener('mouseover', sketch);
