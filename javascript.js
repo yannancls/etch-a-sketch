@@ -129,6 +129,7 @@ buttons.forEach(button => {
             button.classList.add("active");
         }
         else if (button.classList.contains('clear')) {
+            const flexItems = document.querySelectorAll('.flexItem');
             flexItems.forEach(item => {
                 item.style.backgroundColor = 'white';
             });
