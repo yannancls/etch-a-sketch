@@ -2,7 +2,7 @@ const container = document.querySelector('.container');
 
 // Adding Elements
 
-const title = document.createElement("p");
+const title = document.createElement("h1");
 const sketchContainer = document.createElement("div");
 const leftDiv = document.createElement("div");
 const rightDiv = document.createElement("div");
